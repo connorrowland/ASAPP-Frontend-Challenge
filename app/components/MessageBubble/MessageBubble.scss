@@ -1,0 +1,44 @@
+.message--bubble {
+  max-width: 255px;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(203,203,203,0.50);
+  -moz-box-shadow: 0px 4px 10px 0px rgba(203,203,203,0.50);
+  box-shadow: 0px 4px 10px 0px rgba(203,203,203,0.50);
+  position: relative;
+  border-radius: 18px;
+  margin-top: 10px;
+  padding: 18px;
+  .message-bubble--user-photo-sent {
+    right: -5px;
+  }
+  .message-bubble--user-photo-received {
+    left: -5px;
+  }
+  .message-bubble--user-photo {
+    position: absolute;
+    top: -10px;
+    width: 26px;
+    border-radius: 50%;
+    background-color: white;
+    overflow: hidden;
+    .message-bubble-user-photo--img {
+      width: 100%;
+      position: relative;
+    }
+  }
+  .message-bubble--text {
+    font-size: 12px;
+    line-height: 1;
+  }
+}
+
+.message--bubble-sent {
+  background-color: #ffffff;
+  margin-left: auto;
+  color: #9B9B9B;
+}
+
+.message--bubble-received {
+  background-color: #B1B1EF;
+  margin-right: auto;
+  color: #ffffff;
+}

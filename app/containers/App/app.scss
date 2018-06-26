@@ -1,0 +1,30 @@
+h1,h2,h3,h4,h5,p,a,input,textarea{
+  font-family: 'Roboto', sans-serif;
+}
+
+#app {
+  background: url('./messages_bg.png');
+  background-position: center;
+  background-size: contain;
+}
+
+h1 {
+  font-size: 36px;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 700;
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0;
+}
