@@ -1,35 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LauraStockPhoto from './Laura_Photo.png';
 import RobStockPhoto from './Rob_Photo.png';
 import './MessageBubble.scss';
 
-const MessageBubble = () => (
-  <div>
-    <div className="message--bubble message--bubble-sent">
-      <div className="message-bubble--user-photo message-bubble--user-photo-sent">
+function MessageBubble(props) {
+  return (
+    <div className={`message--bubble ${props.messageClasses}`}>
+      <div className={`message-bubble--user-photo ${props.iconClasses}`}>
         <img
-          src={LauraStockPhoto}
-          alt="Laura"
+          src={props.sender === 'Laura' ? LauraStockPhoto : RobStockPhoto}
+          alt={props.sender === 'Laura' ? 'Laura' : 'Rob'}
           className="message-bubble-user-photo--img"
         />
       </div>
-      <p className="message-bubble--text">
-        Hello Rob, how are you? Hahahahaha oh wow.
-      </p>
+      <p className="message-bubble--text">{props.messageBody}</p>
     </div>
-    <div className="message--bubble message--bubble-received">
-      <div className="message-bubble--user-photo message-bubble--user-photo-received">
-        <img
-          src={RobStockPhoto}
-          alt="Rob"
-          className="message-bubble-user-photo--img"
-        />
-      </div>
-      <p className="message-bubble--text">
-        Hello Rob, how are you? Hahahahaha oh wow.
-      </p>
-    </div>
-  </div>
-);
+  );
+}
+
+MessageBubble.propTypes = {
+  messageClasses: PropTypes.string,
+  iconClasses: PropTypes.string,
+  sender: PropTypes.string,
+  messageBody: PropTypes.string,
+};
 
 export default MessageBubble;
