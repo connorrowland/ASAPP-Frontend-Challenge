@@ -15,10 +15,11 @@ export class ChatPage extends React.PureComponent {
       currentMessageInputValue: {},
       messages: [],
       typing: false,
-      sendOptionsOpen: false,
+      sendOptionsOpen: false
     };
   }
 
+  // Scrolls the chat box to the bottom to see new messages.
   scrollToBottom = () => {
     const windows = ['chat-body--Laura', 'chat-body--Rob'];
     for (let i = 0; i <= 1; i++) {
@@ -33,7 +34,7 @@ export class ChatPage extends React.PureComponent {
 
   handleOptionsClick = () => {
     this.setState({
-      sendOptionsOpen: !this.state.sendOptionsOpen,
+      sendOptionsOpen: !this.state.sendOptionsOpen
     });
   };
 
@@ -47,7 +48,7 @@ export class ChatPage extends React.PureComponent {
   handleInputClick = name => {
     if (name !== this.state.activeModule) {
       this.setState({
-        activeModule: name,
+        activeModule: name
       });
     }
   };
@@ -57,18 +58,20 @@ export class ChatPage extends React.PureComponent {
     this.setState({
       typing: true,
       currentMessageInputValue: {
-        [sender]: event.target.value,
-      },
+        [sender]: event.target.value
+      }
     });
+    // Remove the typing gif when message input is emptied.
     const formId = `message-input--${sender}`;
     if (document.getElementById(formId).value === '') {
       this.setState({
-        typing: false,
+        typing: false
       });
     }
   };
 
   handleSubmit = () => {
+    // Adds timestamp for eventual integration with server.
     const date = new Date();
     const time = date.getTime();
 
@@ -76,7 +79,7 @@ export class ChatPage extends React.PureComponent {
     const newMessage = {
       body: this.state.currentMessageInputValue[sender],
       time,
-      sender,
+      sender
     };
     const newMessageState = this.state.messages.concat(newMessage);
 
@@ -86,12 +89,14 @@ export class ChatPage extends React.PureComponent {
         [sender]: null,
       },
       typing: false,
-      sendOptionsOpen: false,
+      sendOptionsOpen: false
     });
+    // Reset textarea after message sent.
     const formId = `message-input--${sender}`;
     document.getElementById(formId).value = '';
   };
 
+  // Creates the 'send with reaction' interaction.
   handleReaction = (receiverName, reactionType) => {
     const reactionGifURL =
       reactionType === 'confetti'
@@ -100,6 +105,7 @@ export class ChatPage extends React.PureComponent {
     this.handleSubmit();
     const receiver = `chat-body--${receiverName}`;
     const receiverBody = document.getElementById(receiver);
+    // So reaction will play as the message fades in.
     setTimeout(() => {
       receiverBody.style.backgroundImage = reactionGifURL;
     }, 200);
@@ -157,7 +163,7 @@ export class ChatPage extends React.PureComponent {
             >
               {messages}
             </CSSTransitionGroup>
-            {name != sender &&
+            {name !== sender &&
               this.state.typing && (
               <img className="typing-gif" src={TypingGif} alt="Typing Gif" />
             )}
