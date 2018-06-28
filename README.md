@@ -1,15 +1,12 @@
-<div align="left"><strong>ASAPP Frontend Challenge</strong></div>
+## ASAPP Frontend Challenge
 <div align="left">A split screen chat interface built with React.js by Connor Rowland.</div>
 
 <br />
 
-## Details
-
+## Project Details
 <dl>
-  <dt>Two way messaging</dt>
   <dd>Rob and Laura can send and receive messages to each other in a way that mirrors a traditional digital messaging experience. Rob and Laura can also send reactions to each other with their messages by clicking on the three dots next to "Send."</dd>
 
-  <dt>Technologies</dt>
   <dd>I used HTML, SCSS, React.js, and Jest to create this application. I also used <a href="https://www.reactboilerplate.com">react-boilerplate</a> to generate the application's file scaffolding.</dd>
 </dl>
 
