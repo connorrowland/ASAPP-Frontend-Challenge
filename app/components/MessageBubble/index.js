@@ -5,6 +5,16 @@ import RobStockPhoto from './Rob_Photo.png';
 import './MessageBubble.scss';
 
 function MessageBubble(props) {
+
+  // readMessageInput = () => {
+  //   // if (fileBody) {
+  //   //   // read the image file and provide it to the bubble
+  //   // } else {
+  //   //   return props.messageBody;
+  //   // }
+  //   console.log(props.messageBody);
+  // }
+
   return (
     <div className={`message--bubble ${props.messageClasses}`}>
       <div className={`message-bubble--user-photo ${props.iconClasses}`}>
@@ -23,7 +33,7 @@ MessageBubble.propTypes = {
   messageClasses: PropTypes.string,
   iconClasses: PropTypes.string,
   sender: PropTypes.string,
-  messageBody: PropTypes.string,
+  //messageBody: PropTypes.string,
 };
 
 export default MessageBubble;

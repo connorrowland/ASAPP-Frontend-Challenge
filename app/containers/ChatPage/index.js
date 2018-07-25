@@ -13,9 +13,10 @@ export class ChatPage extends React.PureComponent {
     this.state = {
       activeModule: '',
       currentMessageInputValue: {},
+      currentFileInputValue: {},
       messages: [],
       typing: false,
-      sendOptionsOpen: false
+      sendOptionsOpen: false,
     };
   }
 
@@ -48,7 +49,7 @@ export class ChatPage extends React.PureComponent {
   handleInputClick = name => {
     if (name !== this.state.activeModule) {
       this.setState({
-        activeModule: name
+        activeModule: name,
       });
     }
   };
@@ -58,14 +59,14 @@ export class ChatPage extends React.PureComponent {
     this.setState({
       typing: true,
       currentMessageInputValue: {
-        [sender]: event.target.value
+        [sender]: event.target.value,
       }
     });
     // Remove the typing gif when message input is emptied.
     const formId = `message-input--${sender}`;
     if (document.getElementById(formId).value === '') {
       this.setState({
-        typing: false
+        typing: false,
       });
     }
   };
@@ -74,26 +75,52 @@ export class ChatPage extends React.PureComponent {
     // Adds timestamp for eventual integration with server.
     const date = new Date();
     const time = date.getTime();
+    const { currentMessageInputValue, currentFileInputValue, activeModule, messages } = this.state;
+    const messageBody = currentMessageInputValue[activeModule];
+    const fileBody = currentFileInputValue[activeModule];
+    // Say we have an image and a text value to send. We send the image first, and then we send the text.
+    // determine if there is a file input present for sender
 
-    const sender = this.state.activeModule;
+    // if both message and file, we need to create two of these messages; one for the file, and one for the message.
+
     const newMessage = {
-      body: this.state.currentMessageInputValue[sender],
+      body: messageBody,
       time,
-      sender
+      activeModule,
     };
-    const newMessageState = this.state.messages.concat(newMessage);
 
-    this.setState({
-      messages: newMessageState,
-      currentMessageInputValue: {
-        [sender]: null,
-      },
-      typing: false,
-      sendOptionsOpen: false
-    });
-    // Reset textarea after message sent.
-    const formId = `message-input--${sender}`;
-    document.getElementById(formId).value = '';
+    const newFileMessage = {
+      body: fileBody,
+      time,
+      activeModule
+    }
+
+    const newMessageState = fileBody ? messages.concat(newFileMessage) : messages.concat(newMessage);
+
+    if (fileBody) {
+      this.setState({
+        messages: newMessageState,
+        currentFileInputValue: {
+          [activeModule]: null,
+        },
+        typing: false,
+        sendOptionsOpen: false,
+      });
+      // Reset file input after message is sent.
+    } else {
+      this.setState({
+        messages: newMessageState,
+        currentMessageInputValue: {
+          [activeModule]: null,
+        },
+        typing: false,
+        sendOptionsOpen: false,
+      });
+
+      // Reset textarea after message sent.
+      const formId = `message-input--${activeModule}`;
+      document.getElementById(formId).value = '';
+    }
   };
 
   // Creates the 'send with reaction' interaction.
@@ -123,6 +150,7 @@ export class ChatPage extends React.PureComponent {
       const iconClasses = sender
         ? 'message-bubble--user-photo-sent'
         : 'message-bubble--user-photo-received';
+
       return (
         <MessageBubble
           key={i}
@@ -135,6 +163,17 @@ export class ChatPage extends React.PureComponent {
     });
     return messageBubble;
   };
+
+  handleFileInputChange = (e) => {
+    const senderName = e.target.id;
+    this.setState({
+      currentFileInputValue: {
+        typing: true,
+        [senderName]: e.target.files[0],
+      }
+    });
+    console.log(e.target.files[0]);
+  }
 
   renderMessagesContainers = () => {
     const sender = this.state.activeModule;
@@ -169,6 +208,12 @@ export class ChatPage extends React.PureComponent {
             )}
           </div>
           <div className="chat-window--footer">
+            <input
+              type="file"
+              value={this.state.currentFileInputValue.name}
+              onChange={this.handleFileInputChange}
+              id={name}
+            />
             <textarea
               value={this.state.currentMessageInputValue.name}
               onClick={this.handleInputClick.bind(this, name)}
@@ -211,6 +256,9 @@ export class ChatPage extends React.PureComponent {
                     onClick={this.handleReaction.bind(this, receiver, 'love')}
                   >
                       Send with love
+                  </p>
+                  <p onClick={this.handleAttachImageClick}>
+                    Attach image
                   </p>
                 </div>
               </div>
